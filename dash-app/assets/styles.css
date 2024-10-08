@@ -1,20 +1,21 @@
+/* Apply a diagonal gradient background from light pink (#FFB0B0) to dark gray (#4A4947) */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background: linear-gradient(170deg, #4A4947, #e8597d);  /* Diagonal gradient */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;  /* Full height for proper background display */
 }
 
-h1 {
-    color: #FF69B4;
-    text-align: center;
-}
-
-.graph-title {
-    text-align: center;
-    margin-top: 10px;
-    color: #333;
-}
-
+/* Set a transparent background for the main container */
 .container {
-    width: 80%;
-    margin: auto;
+    background: rgba(0, 0, 0, 0);  /* Fully transparent container */
+    color: white;
+    height: 100vh;
+}
+
+/* Remove background or margin styling around the graph */
+#japan-map {
+    background: transparent;  /* No background color on the graph */
+    box-shadow: none;  /* Remove shadow effects */
 }
