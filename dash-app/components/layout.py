@@ -2,42 +2,34 @@ from dash import html, dcc
 import pandas as pd
 import plotly.graph_objs as go
 
-# Load data from the CSV file
+# Load the Sakura bloom data
 sakura_first_bloom = pd.read_csv("../data/sakura_first_bloom_dates.csv")
 
-# Select Kyoto data and prepare it for plotting
-location = 'Kyoto'
-years = sakura_first_bloom.columns[3:-2].astype(int)  # Convert year columns to integers
-bloom_dates = pd.to_datetime(sakura_first_bloom.loc[sakura_first_bloom['Site Name'] == location, years.astype(str)].iloc[0])
-
-# Create a scatter plot for the bloom dates
-fig = go.Figure()
-fig.add_trace(go.Scatter(
-    x=years, y=bloom_dates, mode='markers+lines', marker=dict(color='pink'),
-    line=dict(dash='dash'), name='Bloom Dates'
-))
-
-fig.update_layout(
-    title=f'Sakura Bloom Dates in {location} (1953-2023)',
-    xaxis_title='Year',
-    yaxis_title='Bloom Date',
-    yaxis=dict(tickformat='%b %d'),  # Format Y-axis to show month and day
-    hovermode='closest'
-)
+# Extract the list of unique cities
+cities = sakura_first_bloom["Site Name"].unique()
 
 
-# Define the layout of the app
+# Define the layout for the Dash app
 def create_layout():
     return html.Div(
         className="container",
         children=[
             html.H1("Sakura Time Series Dashboard"),
             html.Div(
-                className="graph-title",
-                children=[
-                    html.H2("First Bloom Dates for Sakura in Kyoto"),
-                    dcc.Graph(id="bloom-line-chart", figure=fig),
+                [
+                    html.Label("Select a City:", style={"fontWeight": "bold"}),
+                    dcc.Dropdown(
+                        id="city-dropdown",
+                        options=[{"label": city, "value": city} for city in cities],
+                        value="Kyoto",  # Default value
+                    ),
                 ],
+                style={"width": "50%", "margin": "auto"},
+            ),
+            dcc.Graph(id="city-bloom-graph"),  # Placeholder for the dynamic graph
+            html.P(
+                "Select a city from the dropdown to see its first bloom dates over time.",
+                style={"fontStyle": "italic", "textAlign": "center"},
             ),
         ],
     )

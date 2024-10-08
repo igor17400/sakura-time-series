@@ -8,7 +8,7 @@ app = Dash(__name__, assets_folder="assets")
 # Set the layout for the app
 app.layout = create_layout()
 
-# Register callbacks (if any)
+# Register callbacks
 register_callbacks(app)
 
 # Run the server
